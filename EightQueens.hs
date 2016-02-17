@@ -1,4 +1,7 @@
+module EightQueens where
+
 import Test.HUnit
+
 
 -- Tests
 tests = TestList $ map TestCase
