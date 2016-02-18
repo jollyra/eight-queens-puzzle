@@ -32,8 +32,15 @@ okToAddUp n x partialSolution
                            next = head partialSolution
 
 -- It's ok to add a queen of no queen occupies the downward diagonal.
-okToAddDown :: [Int] -> Int -> Bool
-okToAddDown = undefined
+okToAddDown ::  Int -> Int -> [Int] -> Bool
+okToAddDown _ _ [] = True
+okToAddDown 0 x partialSolution = True
+okToAddDown n 7 partialSolution = True
+okToAddDown n x partialSolution
+                | current /= next = okToAddDown (n - 1) next (tail partialSolution)
+                | current == next = False
+                    where  current = x + 1
+                           next = head partialSolution
 
 runEightQueens = do
     solve []  -- The starting empty solution
@@ -45,6 +52,11 @@ t3 = TestCase (assertEqual "7 []" True (okToAddLevel 7 []))
 t4 = TestCase (assertEqual "" True (okToAddUp 0 3 []))
 t5 = TestCase (assertEqual "" False (okToAddUp 7 7 [6,5,4,3,2,1,0]))
 t6 = TestCase (assertEqual "" True (okToAddUp 3 4 [0,2,4]))
+t7 = TestCase (assertEqual "" True (okToAddUp 2 0 [2,1]))
+t8 = TestCase (assertEqual "" True (okToAddDown 2 7 [2,1]))
+t9 = TestCase (assertEqual "" True (okToAddDown 3 4 [0,2,5]))
+t10 = TestCase (assertEqual "" False (okToAddDown 7 0 [1,2,3,4,5,6,7]))
+t11 = TestCase (assertEqual "" True (okToAddDown 0 6 []))
 
 tests = TestList [
             TestLabel "Cannot add queen if queen occupies row" t1,
@@ -52,7 +64,12 @@ tests = TestList [
             TestLabel "Can always add queen to empty solution" t3,
             TestLabel "Can always add queen to empty solution" t4,
             TestLabel "Can't add queen if upwards diagonal is occupied" t5,
-            TestLabel "Can add queen if upwards diagonal isn't occupied" t6
+            TestLabel "Can add queen if upwards diagonal isn't occupied" t6,
+            TestLabel "Can add queen if upwards diagonal isn't occupied" t7,
+            TestLabel "Can add queen if downwards diagonal isn't occupied" t8,
+            TestLabel "Can add queen if downwards diagonal isn't occupied" t9,
+            TestLabel "Can't add queen if downwards diagonal isn occupied" t10,
+            TestLabel "Can add queen to an empty solution" t11
         ]
 
 runTests = do
