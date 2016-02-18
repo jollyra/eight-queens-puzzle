@@ -39,9 +39,14 @@ runEightQueens = do
     solve []  -- The starting empty solution
 
 -- Tests
-tests = TestList $ map TestCase
-    [assertEqual "add tests here" 1 1
-    ]
+t1 = TestCase (assertEqual "description" False (okToAddLevel 0 [0]))
+t2 = TestCase (assertEqual "description" True (okToAddLevel 0 [1,2,3,4,5,6,7]))
+t3 = TestCase (assertEqual "description" True (okToAddLevel 7 []))
+tests = TestList [
+            TestLabel "Cannot add queen if queen occupies row" t1,
+            TestLabel "Can add queen if no other queen occupies row" t2,
+            TestLabel "Can always add queen to empty solution" t3
+        ]
 
 runTests = do
     print "Eight Queens Puzzle"
