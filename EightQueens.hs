@@ -10,6 +10,7 @@ import Test.HUnit
 -- and (5,3). The right-most index always represents the right-most column of
 -- the chess board. Indices are 0..7.
 --
+--                    0 1 2 3 4 5 6 7
 -- Example solution: [3,5,7,1,6,0,2,4]
 
 solve :: [Int] -> [Int]
@@ -17,11 +18,20 @@ solve xs = xs
 
 -- It's ok to add a queen when no other queens are in the row.
 okToAddLevel :: Int -> [Int] -> Bool
-okToAddLevel target ls = not $ elem target ls
+okToAddLevel x xs = not $ elem x xs
 
-okToAddUp :: [Int] -> Int -> Bool
-okToAddUp = undefined
+-- It's ok to add a queen of no queen occupies the upward diagonal.
+okToAddUp :: Int -> Int -> [Int] -> Bool
+okToAddUp _ _ [] = True
+okToAddUp 0 x partialSolution = True
+okToAddUp n 0 partialSolution = True
+okToAddUp n x partialSolution
+                | current /= next = okToAddUp (n - 1) next (tail partialSolution)
+                | current == next = False
+                    where  current = x - 1
+                           next = head partialSolution
 
+-- It's ok to add a queen of no queen occupies the downward diagonal.
 okToAddDown :: [Int] -> Int -> Bool
 okToAddDown = undefined
 
