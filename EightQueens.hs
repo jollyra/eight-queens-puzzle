@@ -6,8 +6,9 @@ import Test.HUnit
 solve :: [Int] -> [Int]
 solve xs = xs
 
-okToAddLevel :: [Int] -> Int -> Bool
-okToAddLevel = undefined
+-- It's ok to add a queen when no other queens are in the row.
+okToAddLevel :: Int -> [Int] -> Bool
+okToAddLevel target ls = not $ elem target ls
 
 okToAddUp :: [Int] -> Int -> Bool
 okToAddUp = undefined
@@ -16,7 +17,7 @@ okToAddDown :: [Int] -> Int -> Bool
 okToAddDown = undefined
 
 runEightQueens = do
-    solve []
+    solve []  -- The starting empty solution
 
 -- Tests
 tests = TestList $ map TestCase
