@@ -39,17 +39,25 @@ runEightQueens = do
     solve []  -- The starting empty solution
 
 -- Tests
-t1 = TestCase (assertEqual "description" False (okToAddLevel 0 [0]))
-t2 = TestCase (assertEqual "description" True (okToAddLevel 0 [1,2,3,4,5,6,7]))
-t3 = TestCase (assertEqual "description" True (okToAddLevel 7 []))
+t1 = TestCase (assertEqual "0 [0]" False (okToAddLevel 0 [0]))
+t2 = TestCase (assertEqual "0 [1,2,3,4,5,6,7]" True (okToAddLevel 0 [1,2,3,4,5,6,7]))
+t3 = TestCase (assertEqual "7 []" True (okToAddLevel 7 []))
+t4 = TestCase (assertEqual "" True (okToAddUp 0 3 []))
+t5 = TestCase (assertEqual "" False (okToAddUp 7 7 [6,5,4,3,2,1,0]))
+t6 = TestCase (assertEqual "" True (okToAddUp 3 4 [0,2,4]))
+
 tests = TestList [
             TestLabel "Cannot add queen if queen occupies row" t1,
             TestLabel "Can add queen if no other queen occupies row" t2,
-            TestLabel "Can always add queen to empty solution" t3
+            TestLabel "Can always add queen to empty solution" t3,
+            TestLabel "Can always add queen to empty solution" t4,
+            TestLabel "Can't add queen if upwards diagonal is occupied" t5,
+            TestLabel "Can add queen if upwards diagonal isn't occupied" t6
         ]
 
 runTests = do
     print "Eight Queens Puzzle"
     runTestTT tests
 
+-- Main just runs tests for now
 main = runTests
